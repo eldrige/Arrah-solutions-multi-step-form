@@ -11,10 +11,10 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 type CustomInputProps = Omit<InputProps, 'className'>
 
-export const CustomInput = ({type = "text", classNames = "", registration, error, label, ...rest}: CustomInputProps) => {
+export const CustomInput = ({type = "text", classNames = "", registration, error, label, required, ...rest}: CustomInputProps) => {
     return (
         <div className='w-full flex flex-col'>
-            <label htmlFor={label} className='text-[#67728C] mb-2'>{label}</label>
+            <label htmlFor={label} className='text-[#67728C] mb-2'>{label} {required && <span className='text-[#73B4FC]'>*</span>}</label>
             <input
                 type={type}
                 className={cn('focus:ring-[#73B4FC]  focus:border-[#73B4FC] rounded-md border-none w-full outline-none block p-[12px] sm:p-4 ring-1 ring-gray-200 text-black',
