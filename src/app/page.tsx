@@ -1,12 +1,13 @@
 'use client'
-import Image from 'next/image'
 import {useRouter} from 'next/navigation';
 import {useForm} from 'react-hook-form';
 import {CustomInput} from './components/custom-input';
 import Link from 'next/link';
+import {useRef} from 'react';
+import {useRegisterContexxt} from './contexts/register-context';
 
 const NavPill = () => (
-  <Link href='/' className="w-full flex items-center justify-center gap-4 bg-gradient-to-r from-[#A4E1FF] to-[#73B4FC] p-4 rounded-tl-2xl rounded-r-full shadow-lg  cursor-pointer">
+  <Link href='/' className="w-full flex items-center justify-center gap-4 bg-gradient-to-r from-[#A4E1FF] to-[#73B4FC] p-4 rounded-tl-2xl rounded-tr-3xl rounded-br-3xl shadow-lg  cursor-pointer">
     <div className="w-6 h-6 bg-white flex items-center justify-center text-[#73B4FC] rounded-full">
       1
     </div>
@@ -27,9 +28,39 @@ type FormData = {
 
 export default function Page() {
   const router = useRouter()
-  const {register, handleSubmit, formState: {errors}} = useForm<FormData>({});
+  const submitBtnRef = useRef<HTMLButtonElement>(null)
+  const {dispatch, firstName, lastName, phoneNumber, email, password} = useRegisterContexxt()
+  const {register, handleSubmit, formState: {errors, isValid}} = useForm<FormData>({
+    defaultValues: {
+      firstName,
+      lastName,
+      phoneNumber,
+      email,
+      password
+    }
+  });
   const onSubmit = (data: FormData) => {
-    console.log(data)
+    const {firstName, lastName, email, password, phoneNumber} = data
+    dispatch({
+      type: 'update_first_name',
+      payload: firstName
+    })
+    dispatch({
+      type: 'update_last_name',
+      payload: lastName
+    })
+    dispatch({
+      type: 'update_email',
+      payload: email
+    })
+    dispatch({
+      type: 'update_password',
+      payload: password
+    })
+    dispatch({
+      type: 'update_phone_number',
+      payload: phoneNumber
+    })
     router.push('/business-info')
   }
 
@@ -38,13 +69,13 @@ export default function Page() {
       <main className="flex min-h-[80vh] flex-col items-center bg-white  rounded-2xl shadow-2xl">
         <div className='flex w-full items-center rounded-t-2xl bg-[#EEEFFD]'>
           <NavPill />
-          <Link href='/business-info' className="w-full flex items-center  justify-center gap-4 bg-[#EEEFFD] p-4 cursor-pointer">
+          <Link href={isValid ? `/business-info` : ''} className="w-full flex items-center  justify-center gap-4 bg-[#EEEFFD] p-4 cursor-pointer">
             <div className="w-6 h-6 bg-[#BEC8E8] flex items-center justify-center text-[#EEEFFD] rounded-full">
               2
             </div>
             <p className='text-[#BEC8E8]'>Business Information</p>
           </Link>
-          <div className="w-full flex items-center justify-center gap-4 bg-[#EEEFFD] p-4 cursor-pointer">
+          <div className="w-full flex items-center justify-center gap-4 rounded-tr-2xl bg-[#EEEFFD] p-4 cursor-pointer">
             <div className="w-6 h-6 bg-[#BEC8E8] flex items-center justify-center text-[#EEEFFD] rounded-full">
               3
             </div>
@@ -56,7 +87,7 @@ export default function Page() {
           <h1 className='text-center text-[#516992] text-2xl font-semibold'>Your profile</h1>
           <p className='text-center text-[#67728C] font-semibold'>Enter the login for your account. You will be able to create additional users after registering</p>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full grid mt-10 px-24 2xl:px-60  grid-cols-2 gap-6 items-center justify-between">
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full grid mt-10 px-24 2xl:px-60 grid-cols-2 gap-6 items-center justify-between">
           <CustomInput
             registration={register("firstName", {required: 'This is a required field'})}
             placeholder="Input First name"
@@ -105,15 +136,16 @@ export default function Page() {
             label="Confirm password"
             required
           />
+          <button ref={submitBtnRef} type="submit" className='invisible' />
         </form>
       </main>
       <div className="flex w-full mt-8 items-center justify-between">
         <button className='text-[#73B4FC]'>Back to login</button>
-        <button className='bg-gradient-to-r from-[#A4E1FF] to-[#73B4FC] text-white rounded py-2 px-4'
-          onClick={() =>
-            router.push('/business-info')
-          }
-        >Next step
+        <button
+          onClick={() => submitBtnRef?.current?.click()}
+          className='bg-gradient-to-r from-[#A4E1FF] to-[#73B4FC] text-white rounded py-2 px-4'
+        >
+          Next step
         </button>
       </div>
     </>
