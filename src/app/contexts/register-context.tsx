@@ -14,6 +14,7 @@ interface RegisterContextType {
     city: string | undefined;
     zipCode: string | undefined;
     taxIdNumber: string | undefined;
+    country: string | undefined;
     dispatch: React.Dispatch<ACTIONTYPE>
 }
 
@@ -29,6 +30,7 @@ type ACTIONTYPE =
     | {type: "update_city"; payload: string}
     | {type: "update_zip_code"; payload: string}
     | {type: "update_tax_id_number"; payload: string}
+    | {type: "update_country"; payload: string}
     | {type: "clear"}
 
 
@@ -43,7 +45,8 @@ const initialValues = {
     streetAddress: "",
     city: "",
     zipCode: "",
-    taxIdNumber: ""
+    taxIdNumber: "",
+    country: ""
 };
 
 function registerReducer(state: typeof initialValues, action: ACTIONTYPE) {
@@ -112,6 +115,12 @@ function registerReducer(state: typeof initialValues, action: ACTIONTYPE) {
             return {
                 ...state,
                 city: action.payload,
+            };
+        }
+        case 'update_country': {
+            return {
+                ...state,
+                country: action.payload,
             };
         }
         case 'clear': {

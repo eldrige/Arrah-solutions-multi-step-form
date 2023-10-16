@@ -23,24 +23,26 @@ type FormData = {
   password: string,
   phoneNumber: string,
   confirmPassword: string
+  country: string
 };
 
 
 export default function Page() {
   const router = useRouter()
   const submitBtnRef = useRef<HTMLButtonElement>(null)
-  const {dispatch, firstName, lastName, phoneNumber, email, password} = useRegisterContexxt()
+  const {dispatch, firstName, lastName, phoneNumber, email, password, country} = useRegisterContexxt()
   const {register, handleSubmit, formState: {errors, isValid}} = useForm<FormData>({
     defaultValues: {
       firstName,
       lastName,
       phoneNumber,
       email,
-      password
+      password,
+      country
     }
   });
   const onSubmit = (data: FormData) => {
-    const {firstName, lastName, email, password, phoneNumber} = data
+    const {firstName, lastName, email, password, phoneNumber, country} = data
     dispatch({
       type: 'update_first_name',
       payload: firstName
@@ -60,6 +62,10 @@ export default function Page() {
     dispatch({
       type: 'update_phone_number',
       payload: phoneNumber
+    })
+    dispatch({
+      type: 'update_country',
+      payload: country
     })
     router.push('/business-info')
   }
@@ -129,11 +135,11 @@ export default function Page() {
             required
           />
           <CustomInput
-            registration={register("confirmPassword", {required: 'This is a required field'})}
-            placeholder="Input Confirm password"
-            error={errors.confirmPassword}
+            registration={register("country", {required: 'This is a required field'})}
+            placeholder="Input Country"
+            error={errors.country}
             classNames="w-1/2"
-            label="Confirm password"
+            label="Country"
             required
           />
           <button ref={submitBtnRef} type="submit" className='invisible' />
