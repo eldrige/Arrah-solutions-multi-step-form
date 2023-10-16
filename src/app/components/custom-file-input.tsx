@@ -22,7 +22,7 @@ const CustomFileUpload = ({uploadIcon, classNames, name, ...props}: CustomInputP
         setFileSelected(fileList[0]);
     };
 
-    const uploadFile = function (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
+    const uploadFile = function (e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
         if (fileSelected) {
             const formData = new FormData();
             formData.append("image", fileSelected, fileSelected.name);
