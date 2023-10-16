@@ -75,12 +75,12 @@ export default function Page() {
             </div>
             <p className='text-[#BEC8E8]'>Business Information</p>
           </Link>
-          <div className="w-full flex items-center justify-center gap-4 rounded-tr-2xl bg-[#EEEFFD] p-4 cursor-pointer">
+          <Link href={isValid ? `/summary` : ''} className="w-full flex items-center justify-center gap-4 rounded-tr-2xl bg-[#EEEFFD] p-4 cursor-pointer">
             <div className="w-6 h-6 bg-[#BEC8E8] flex items-center justify-center text-[#EEEFFD] rounded-full">
               3
             </div>
             <p className='text-[#BEC8E8]'>Confirmation page</p>
-          </div>
+          </Link>
         </div>
         <div className='gap-2 mt-8 flex flex-col items-center'>
           <h3 className='text-center text-[#BEC8E8]'>Step 1</h3>

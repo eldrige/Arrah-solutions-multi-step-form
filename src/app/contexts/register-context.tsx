@@ -108,6 +108,12 @@ function registerReducer(state: typeof initialValues, action: ACTIONTYPE) {
                 taxIdNumber: action.payload,
             };
         }
+        case 'update_city': {
+            return {
+                ...state,
+                city: action.payload,
+            };
+        }
         case 'clear': {
             return {
                 ...initialValues
@@ -116,7 +122,7 @@ function registerReducer(state: typeof initialValues, action: ACTIONTYPE) {
 
 
     }
-    throw Error('Unknown action ' + action.payload);
+    // throw Error('Unknown action ' + action.payload);
 }
 
 const RegisterContext = createContext<RegisterContextType | null>(null)

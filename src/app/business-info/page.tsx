@@ -43,7 +43,7 @@ export default function Page() {
         }
     });
     const onSubmit = (data: FormData) => {
-        const {brandName, brandType, zipCode, city, taxIdNumber} = data
+        const {brandName, brandType, zipCode, city, taxIdNumber, streetAddress} = data
         dispatch({
             type: 'update_brand_name',
             payload: brandName
@@ -64,7 +64,11 @@ export default function Page() {
             type: 'update_tax_id_number',
             payload: taxIdNumber
         })
-        router.push('/onboarding/connect')
+        dispatch({
+            type: 'update_street_address',
+            payload: streetAddress
+        })
+        router.push('/summary')
     }
 
     return (
@@ -78,12 +82,12 @@ export default function Page() {
                         </div>
                         <p>Business information</p>
                     </Link>
-                    <div className="w-full flex items-center justify-center gap-4 bg-[#EEEFFD] p-4 cursor-pointer">
+                    <Link href={isValid ? 'summary' : '/business-info'} className="w-full flex items-center justify-center gap-4 bg-[#EEEFFD] p-4 cursor-pointer rounded-tr-2xl">
                         <div className="w-6 h-6 bg-[#BEC8E8] flex items-center justify-center text-[#EEEFFD] rounded-full">
                             3
                         </div>
                         <p className='text-[#BEC8E8]'>Confirmation page</p>
-                    </div>
+                    </Link>
                 </div>
                 <div className='gap-2 mt-8 flex flex-col items-center'>
                     <h3 className='text-center text-[#BEC8E8]'>Step 2</h3>
@@ -168,13 +172,14 @@ export default function Page() {
                             <ChevronRight className="h-4 w-4 text-white" aria-hidden="true" />
                         </div>
                     </div>
+                    <button ref={submitBtnRef} type="submit" className='invisible' />
                 </form>
             </main>
             <div className="flex w-full mt-8 items-center justify-between">
                 <button className='text-[#73B4FC]'>Back to login</button>
                 <div className="flex items-center gap-8">
                     <button
-                        className='flex items-center justify-center gap-2 border border-[#73B4FC] text-[#73B4FC] bg-white rounded py-2 px-4 min-w-[10rem]'
+                        className='flex items-center justify-center gap-2 border-2 border-[#73B4FC] text-[#73B4FC] bg-white rounded py-2 px-4 min-w-[10rem]'
                     >
                         <ChevronLeft className="h-4 w-4 text-[#73B4FC]" aria-hidden="true" />
                         Previous step
